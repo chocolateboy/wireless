@@ -108,12 +108,11 @@ module Wireless
       #     end
       # end
 
-      args = DEFAULT_EXPORTS.merge(args).to_a.map do |key, exports|
-        value = Array(exports).reduce({}) do |a, b|
+      args = DEFAULT_EXPORTS.merge(args).each_with_object({}) do |(key, exports), merged|
+        merged[key] = Array(exports).reduce({}) do |a, b|
           a.merge(b.is_a?(Hash) ? b : { b => b })
         end
-        [key, value]
-      end.to_h
+      end
 
       @module_cache[args] ||= module_for(args)
     end
