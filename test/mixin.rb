@@ -1,0 +1,189 @@
+# frozen_string_literal: true
+
+require 'wireless'
+require_relative 'test_helper'
+
+class Method
+  def visibility
+    if receiver.private_methods.include?(name)
+      :private
+    elsif receiver.protected_methods.include?(name)
+      :protected
+    elsif receiver.public_methods.include?(name)
+      :public
+    else
+      :unknown
+    end
+  end
+end
+
+module MethodInspector
+  def get(name)
+    result = send(name)
+    [result, method(name).visibility]
+  end
+end
+
+describe 'mixin' do
+  it 'imports getters with the default visibility (private)' do
+    wl = Wireless.new do
+      on(:foo) { :Foo }
+      once(:bar) { :Bar }
+      on(:baz) { :Baz }
+      once(:quux) { :Quux }
+    end
+
+    klass = Class.new do
+      include wl.mixin %i[foo bar baz quux]
+      include MethodInspector
+    end
+
+    test = klass.new
+    assert { test.get(:foo) == %i[Foo private] }
+    assert { test.get(:bar) == %i[Bar private] }
+    assert { test.get(:baz) == %i[Baz private] }
+    assert { test.get(:quux) == %i[Quux private] }
+  end
+
+  it 'allows the default visibility to be set to private' do
+    wl = Wireless.new(:private) do
+      on(:foo) { :Foo }
+      once(:bar) { :Bar }
+      on(:baz) { :Baz }
+      once(:quux) { :Quux }
+    end
+
+    klass = Class.new do
+      include wl.mixin %i[foo bar baz quux]
+      include MethodInspector
+    end
+
+    test = klass.new
+    assert { test.get(:foo) == %i[Foo private] }
+    assert { test.get(:bar) == %i[Bar private] }
+    assert { test.get(:baz) == %i[Baz private] }
+    assert { test.get(:quux) == %i[Quux private] }
+  end
+
+  it 'allows the default visibility to be set to protected' do
+    wl = Wireless.new(:protected) do
+      on(:foo) { :Foo }
+      once(:bar) { :Bar }
+      on(:baz) { :Baz }
+      once(:quux) { :Quux }
+    end
+
+    klass = Class.new do
+      include wl.mixin %i[foo bar baz quux]
+      include MethodInspector
+    end
+
+    test = klass.new
+    assert { test.get(:foo) == %i[Foo protected] }
+    assert { test.get(:bar) == %i[Bar protected] }
+    assert { test.get(:baz) == %i[Baz protected] }
+    assert { test.get(:quux) == %i[Quux protected] }
+  end
+
+  it 'allows the default visibility to be set to public' do
+    wl = Wireless.new(:public) do
+      on(:foo) { :Foo }
+      once(:bar) { :Bar }
+      on(:baz) { :Baz }
+      once(:quux) { :Quux }
+    end
+
+    klass = Class.new do
+      include wl.mixin %i[foo bar baz quux]
+      include MethodInspector
+    end
+
+    test = klass.new
+    assert { test.get(:foo) == %i[Foo public] }
+    assert { test.get(:bar) == %i[Bar public] }
+    assert { test.get(:baz) == %i[Baz public] }
+    assert { test.get(:quux) == %i[Quux public] }
+  end
+
+  it 'allows visibilities to be overridden (no default)' do
+    wl = Wireless.new do
+      on(:foo) { :Foo }
+      once(:bar) { :Bar }
+      on(:baz) { :Baz }
+      once(:quux) { :Quux }
+    end
+
+    klass = Class.new do
+      # note: these tests mix up the wrapped (e.g. [:foo]) and unwrapped
+      # (e.g. :quux) import specifications to ensure they're all covered
+      include wl.mixin private: [:foo], protected: %i[bar baz], public: [:quux]
+      include MethodInspector
+    end
+
+    test = klass.new
+    assert { test.get(:foo) == %i[Foo private] }
+    assert { test.get(:bar) == %i[Bar protected] }
+    assert { test.get(:baz) == %i[Baz protected] }
+    assert { test.get(:quux) == %i[Quux public] }
+  end
+
+  it 'allows visibilities to be overridden (default: private)' do
+    wl = Wireless.new(:private) do
+      on(:foo) { :Foo }
+      once(:bar) { :Bar }
+      on(:baz) { :Baz }
+      once(:quux) { :Quux }
+    end
+
+    klass = Class.new do
+      include wl.mixin private: :foo, protected: %i[bar baz], public: :quux
+      include MethodInspector
+    end
+
+    test = klass.new
+    assert { test.get(:foo) == %i[Foo private] }
+    assert { test.get(:bar) == %i[Bar protected] }
+    assert { test.get(:baz) == %i[Baz protected] }
+    assert { test.get(:quux) == %i[Quux public] }
+  end
+
+  it 'allows visibilities to be overridden (default: protected)' do
+    wl = Wireless.new(:protected) do
+      on(:foo) { :Foo }
+      once(:bar) { :Bar }
+      on(:baz) { :Baz }
+      once(:quux) { :Quux }
+    end
+
+    klass = Class.new do
+      include wl.mixin private: [:foo], protected: %i[bar baz], public: :quux
+      include MethodInspector
+    end
+
+    test = klass.new
+    assert { test.get(:foo) == %i[Foo private] }
+    assert { test.get(:bar) == %i[Bar protected] }
+    assert { test.get(:baz) == %i[Baz protected] }
+    assert { test.get(:quux) == %i[Quux public] }
+  end
+
+  it 'allows visibilities to be overridden (default: public)' do
+    wl = Wireless.new(:public) do
+      on(:foo) { :Foo }
+      once(:bar) { :Bar }
+      on(:baz) { :Baz }
+      once(:quux) { :Quux }
+    end
+
+    klass = Class.new do
+      include wl.mixin private: :foo, protected: %i[bar baz], public: [:quux]
+      include MethodInspector
+    end
+
+    test = klass.new
+    assert { test.get(:foo) == %i[Foo private] }
+    assert { test.get(:bar) == %i[Bar protected] }
+    assert { test.get(:baz) == %i[Baz protected] }
+    assert { test.get(:quux) == %i[Quux public] }
+  end
+end

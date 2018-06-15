@@ -1,0 +1,6 @@
+# project-specific customizations and overrides
+
+inherit_from: default.yml
+
+Style/HashSyntax:
+    Enabled: false
