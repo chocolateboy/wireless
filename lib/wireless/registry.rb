@@ -116,7 +116,7 @@ module Wireless
           #   def foo
           #     registry.fetch(:foo)
           #   end
-          mod.define_method(method_name) do
+          mod.send(:define_method, method_name) do
             registry.fetch(dependency_name)
           end
 

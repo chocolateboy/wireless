@@ -10,4 +10,5 @@ before_install:
   - bundle --version
 matrix:
   allow_failures:
+    - rvm: 2.3
     - rvm: ruby-head
