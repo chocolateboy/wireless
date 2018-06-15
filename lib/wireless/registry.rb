@@ -88,13 +88,32 @@ module Wireless
         raise ArgumentError, "invalid mixin argument: expected array or hash, got: #{args.class}"
       end
 
-      # slurp each array of name (symbol) or alias (hash) imports into a
-      # normalized hash of { dependency_name => method_name } pairs
-      args = DEFAULT_EXPORTS.merge(args).transform_values do |exports|
-        Array(exports).reduce({}) do |a, b|
+      # slurp each array of name (symbol) or name => alias (hash) imports into
+      # a normalized hash of { dependency_name => method_name } pairs e.g.:
+      #
+      # before:
+      #
+      #   [:foo, { :bar => :baz }, :quux]
+      #
+      # after:
+      #
+      #   { :foo => :foo, :bar => :baz, :quux => :quux }
+
+      # XXX transform_values isn't available on ruby 2.3 and we don't want to
+      # pull in ActiveSupport for just one method in this case
+      #
+      # args = DEFAULT_EXPORTS.merge(args).transform_values do |exports|
+      #     Array(exports).reduce({}) do |a, b|
+      #         a.merge(b.is_a?(Hash) ? b : { b => b })
+      #     end
+      # end
+
+      args = DEFAULT_EXPORTS.merge(args).to_a.map do |key, exports|
+        value = Array(exports).reduce({}) do |a, b|
           a.merge(b.is_a?(Hash) ? b : { b => b })
         end
-      end
+        [key, value]
+      end.to_h
 
       @module_cache[args] ||= module_for(args)
     end
