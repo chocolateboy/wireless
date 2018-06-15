@@ -11,10 +11,5 @@ module Wireless
       @registry = registry
       @seen = seen
     end
-
-    def to_s
-      hash = { registry: @registry.keys, seen: @seen.to_a }
-      "#<#{self.class}: #{hash.inspect}>"
-    end
   end
 end

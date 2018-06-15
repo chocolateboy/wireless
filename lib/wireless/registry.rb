@@ -4,12 +4,12 @@ require 'set'
 require_relative 'synchronized_store'
 
 module Wireless
-  # The hash-like object which is the public API of the dependency provider
-  # (AKA service locator). It maps names (symbols) to dependencies (objects) via blocks
+  # The public API of the dependency provider (AKA service locator). A hash-like
+  # object which maps names (symbols) to dependencies (objects) via blocks
   # which resolve the dependency either every time (factory) or once (singleton).
   #
-  # The block can be supplied as a class, in which case it is equivalent to a block
-  # which calls +new+ on the class e.g.:
+  # A class can be supplied instead of the block, in which case it is equivalent to
+  # a block which calls +new+ on the class e.g.:
   #
   #   WL = Wireless.new do
   #     on(:foo, Foo)
