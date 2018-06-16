@@ -6,7 +6,7 @@ require_relative 'synchronized_store'
 module Wireless
   # The public API of the dependency provider (AKA service locator). A hash-like
   # object which maps names (symbols) to dependencies (objects) via blocks
-  # which resolve the dependency either every time (factory) or once (singleton).
+  # which either resolve the dependency every time (factory) or once (singleton).
   #
   # A class can be supplied instead of the block, in which case it is equivalent to
   # a block which calls +new+ on the class e.g.:
@@ -26,17 +26,17 @@ module Wireless
 
     include Fetch
 
-    def initialize(args = DEFAULT_VISIBILITY, &block)
-      @default_visibility = args
-      @module_cache = {}
-      @registry = SynchronizedStore.new
+    def initialize(default_visibility = DEFAULT_VISIBILITY, &block)
+      @default_visibility = default_visibility
+      @module_cache = SynchronizedStore.new(type: :module)
+      @registry = SynchronizedStore.new(type: :resolver)
       @seen = Set.new
       instance_eval(&block) if block
     end
 
     # Registers a dependency which is resolved every time its value is fetched.
     def factory(name, klass = nil, &block)
-      register(Resolver::Factory, name, block || klass)
+      @registry[name.to_sym] = Resolver::Factory.new(block || klass)
     end
 
     # Returns true if a service with the specified name has been registered, false
@@ -48,7 +48,7 @@ module Wireless
     # Registers a dependency which is only resolved the first time its value is
     # fetched. On subsequent fetches, the cached value is returned.
     def singleton(name, klass = nil, &block)
-      register(Resolver::Singleton, name, block || klass)
+      @registry[name.to_sym] = Resolver::Singleton.new(block || klass)
     end
 
     # Takes an array or hash specifying the dependencies to export, and returns
@@ -99,8 +99,8 @@ module Wireless
       #
       #   { :foo => :foo, :bar => :baz, :quux => :quux }
 
-      # XXX transform_values isn't available on ruby 2.3 and we don't want to
-      # pull in ActiveSupport for just one method in this case
+      # XXX transform_values isn't available in ruby 2.3 and we don't want to
+      # pull in ActiveSupport just for one method (on this occasion)
       #
       # args = DEFAULT_EXPORTS.merge(args).transform_values do |exports|
       #     Array(exports).reduce({}) do |a, b|
@@ -114,7 +114,7 @@ module Wireless
         end
       end
 
-      @module_cache[args] ||= module_for(args)
+      @module_cache.get!(args) { module_for(args) }
     end
 
     alias on factory
@@ -146,12 +146,6 @@ module Wireless
       end
 
       mod
-    end
-
-    # Assign a locator for the specified dependency name
-    def register(locator, name, block)
-      name = name.to_sym
-      @registry[name] = locator.new(block)
     end
   end
 end

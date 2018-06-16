@@ -77,8 +77,11 @@ describe 'core' do
       on(:foo) { |w| [:foo, w[:bar]] }
     end
 
-    assert_raises(Wireless::NameError) { wl[:foo] }
-    assert_raises(Wireless::NameError) { wl[:bar] }
+    # match the receiver's class rather than its identity as the failed lookup is
+    # performed on the nested Fetcher object rather than on the Wireless instance
+    assert_raises_key_error(receiver: Wireless::Fetcher, key: :bar) { wl[:foo] }
+
+    assert_raises_key_error(receiver: wl, key: :bar)
 
     wl.once(:bar) { :bar }
 
@@ -92,8 +95,8 @@ describe 'core' do
       on(:foo) { |w| [:foo, w[:bar]] }
     end
 
-    assert_raises(Wireless::NameError) { wl[:foo] }
-    assert_raises(Wireless::NameError) { wl[:bar] }
+    assert_raises_key_error(receiver: Wireless::Fetcher, key: :bar) { wl[:foo] }
+    assert_raises_key_error(receiver: wl, key: :bar)
 
     wl.once(:bar) { :bar }
 

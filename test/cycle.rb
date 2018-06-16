@@ -5,7 +5,7 @@ require_relative 'test_helper'
 
 module MiniTest
   module Assertions
-    def assert_cycle(pattern, &block)
+    def assert_raises_cycle_error(pattern, &block)
       err = assert_raises(Wireless::CycleError, &block)
       assert { err.is_a?(Wireless::Error) }
       assert { err.is_a?(StandardError) }
@@ -23,7 +23,7 @@ describe 'cycles' do
       on(:quux) { |w| w[:foo] }
     end
 
-    assert_cycle(/foo -> bar -> baz -> quux -> foo/) { wl[:foo] }
+    assert_raises_cycle_error(/foo -> bar -> baz -> quux -> foo/) { wl[:foo] }
   end
 
   it 'detects self-references (factory)' do
@@ -31,7 +31,7 @@ describe 'cycles' do
       on(:foo) { |w| w[:foo] }
     end
 
-    assert_cycle(/foo -> foo/) { wl[:foo] }
+    assert_raises_cycle_error(/foo -> foo/) { wl[:foo] }
   end
 
   it 'detects cycles (singleton)' do
@@ -42,7 +42,7 @@ describe 'cycles' do
       once(:quux) { |w| w[:foo] }
     end
 
-    assert_cycle(/foo -> bar -> baz -> quux -> foo/) { wl[:foo] }
+    assert_raises_cycle_error(/foo -> bar -> baz -> quux -> foo/) { wl[:foo] }
   end
 
   it 'detects self-references (singleton)' do
@@ -50,7 +50,7 @@ describe 'cycles' do
       once(:foo) { |w| w[:foo] }
     end
 
-    assert_cycle(/foo -> foo/) { wl[:foo] }
+    assert_raises_cycle_error(/foo -> foo/) { wl[:foo] }
   end
 
   it 'detects cycles (mixed)' do
@@ -61,6 +61,6 @@ describe 'cycles' do
       once(:quux) { |w| w[:foo] }
     end
 
-    assert_cycle(/foo -> bar -> baz -> quux -> foo/) { wl[:foo] }
+    assert_raises_cycle_error(/foo -> bar -> baz -> quux -> foo/) { wl[:foo] }
   end
 end

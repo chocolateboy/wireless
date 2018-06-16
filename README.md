@@ -109,7 +109,7 @@ which has the following features:
 
 ## Why Wireless?
 
-I wanted a simple service locator like [DiFTW](https://github.com/jhollinger/ruby-diftw),
+I wanted a simple service locator like [DiFtw](https://github.com/jhollinger/ruby-diftw),
 with cycle detection and control over the [visibility of getters](https://github.com/jhollinger/ruby-diftw/issues/1).
 
 ## Why Service Locators?
@@ -127,7 +127,7 @@ Examples include:
 Rather than wiring these dependencies together manually, service locators allow them to be
 registered and retrieved in a declarative way. This is similar to the difference between
 imperative build tools like Ant or Gulp and declarative build tools like Make or Rake, which
-allow prerequisites to be acquired on-demand, without micromanaging their creation and connections.
+allow prerequisites to be acquired on-demand, without micromanaging their construction or connections.
 
 # VERSION
 

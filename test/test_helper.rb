@@ -7,6 +7,29 @@ require 'minitest/reporters'
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 module Minitest
+  module Assertions
+    # executes the supplied block and verifies that it raises a Wireless::KeyError
+    # and optionally matches its receiver and key members.
+    #
+    # if both the receiver and the key are supplied and the block is omitted,
+    # it defaults to:
+    #
+    #   -> { receiver[key] }
+
+    def assert_raises_key_error(receiver: nil, key: nil, &block)
+      block ||= -> { receiver[key] } if receiver && key
+      err = assert_raises(Wireless::KeyError, &block)
+
+      assert { err.is_a?(Wireless::Error) }
+      assert { err.is_a?(StandardError) }
+
+      # rubocop:disable Style/CaseEquality
+      assert { key === err.key } if key
+      assert { receiver === err.receiver } if receiver
+      # rubocop:enable Style/CaseEquality
+    end
+  end
+
   module Reporters
     class BaseReporter
       # fix mangled output for assertion errors by toggling the default

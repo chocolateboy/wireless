@@ -12,5 +12,7 @@ task :rubocop do
   sh 'rubocop', '--display-cop-names', '--config', 'resources/rubocop/rubocop.yml'
 end
 
+# FIXME this runs after the release!
 task :release => %i[rubocop test]
+
 task :default => :test

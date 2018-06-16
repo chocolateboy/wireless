@@ -6,9 +6,7 @@ require_relative 'test_helper'
 describe 'exceptions' do
   it 'raises an error if an undefined dependency is accessed' do
     wl = Wireless.new
-    err = assert_raises(Wireless::NameError) { wl[:foo] }
-    assert { err.is_a?(Wireless::Error) }
-    assert { err.is_a?(StandardError) }
+    assert_raises_key_error(receiver: wl, key: :foo)
   end
 
   it 'raises an error if a dependency is replaced' do
@@ -20,11 +18,12 @@ describe 'exceptions' do
     assert { wl[:foo] == :foo }
     assert { wl[:bar] == :bar }
 
-    assert_raises(Wireless::NameError) do
+    # XXX don't check the receiver as the lookup fails on an internal helper class
+    assert_raises_key_error(key: :foo) do
       wl.on(:foo) { :replace_foo }
     end
 
-    assert_raises(Wireless::NameError) do
+    assert_raises_key_error(key: :bar) do
       wl.on(:bar) { :replace_bar }
     end
   end
