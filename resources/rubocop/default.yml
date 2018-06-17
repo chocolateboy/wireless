@@ -12,6 +12,9 @@ AllCops:
 Layout/EndAlignment:
   EnforcedStyleAlignWith: variable
 
+Layout/IndentHash:
+    EnforcedStyle: consistent
+
 Lint/NestedMethodDefinition:
   Enabled: false
 

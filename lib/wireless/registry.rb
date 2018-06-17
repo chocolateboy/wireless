@@ -103,13 +103,15 @@ module Wireless
       # pull in ActiveSupport just for one method (on this occasion)
       #
       # args = DEFAULT_EXPORTS.merge(args).transform_values do |exports|
-      #     Array(exports).reduce({}) do |a, b|
+      #     exports = [exports] unless exports.is_a?(Array)
+      #     exports.reduce({}) do |a, b|
       #         a.merge(b.is_a?(Hash) ? b : { b => b })
       #     end
       # end
 
       args = DEFAULT_EXPORTS.merge(args).each_with_object({}) do |(key, exports), merged|
-        merged[key] = Array(exports).reduce({}) do |a, b|
+        exports = [exports] unless exports.is_a?(Array)
+        merged[key] = exports.reduce({}) do |a, b|
           a.merge(b.is_a?(Hash) ? b : { b => b })
         end
       end

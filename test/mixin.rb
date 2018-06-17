@@ -186,4 +186,66 @@ describe 'mixin' do
     assert { test.get(:baz) == %i[Baz protected] }
     assert { test.get(:quux) == %i[Quux public] }
   end
+
+  it 'allows imports to be renamed (separate aliases)' do
+    wl = Wireless.new(:public) do
+      on(:foo) { :Foo }
+      once(:bar) { :Bar }
+      on(:baz) { :Baz }
+      once(:quux) { :Quux }
+    end
+
+    klass = Class.new do
+      include wl.mixin({
+        private: { foo: :one },
+        protected: [{ bar: :two }, { baz: :three }],
+        public: [{ quux: :four }],
+      })
+
+      include MethodInspector
+    end
+
+    test = klass.new
+
+    assert_raises(NoMethodError) { test.get(:foo) }
+    assert_raises(NoMethodError) { test.get(:bar) }
+    assert_raises(NoMethodError) { test.get(:baz) }
+    assert_raises(NoMethodError) { test.get(:quux) }
+
+    assert { test.get(:one) == %i[Foo private] }
+    assert { test.get(:two) == %i[Bar protected] }
+    assert { test.get(:three) == %i[Baz protected] }
+    assert { test.get(:four) == %i[Quux public] }
+  end
+
+  it 'allows imports to be renamed (merged aliases)' do
+    wl = Wireless.new(:public) do
+      on(:foo) { :Foo }
+      once(:bar) { :Bar }
+      on(:baz) { :Baz }
+      once(:quux) { :Quux }
+    end
+
+    klass = Class.new do
+      include wl.mixin({
+        private: { foo: :one },
+        protected: { bar: :two, baz: :three },
+        public: [{ quux: :four }],
+      })
+
+      include MethodInspector
+    end
+
+    test = klass.new
+
+    assert_raises(NoMethodError) { test.get(:foo) }
+    assert_raises(NoMethodError) { test.get(:bar) }
+    assert_raises(NoMethodError) { test.get(:baz) }
+    assert_raises(NoMethodError) { test.get(:quux) }
+
+    assert { test.get(:one) == %i[Foo private] }
+    assert { test.get(:two) == %i[Bar protected] }
+    assert { test.get(:three) == %i[Baz protected] }
+    assert { test.get(:four) == %i[Quux public] }
+  end
 end

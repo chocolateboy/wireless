@@ -137,7 +137,7 @@ allow prerequisites to be acquired on-demand, without micromanaging their constr
 
 ## Gems
 
-- [Canister](https://github.com/mlibrary/canister) -  a simple Service Locator for Ruby inspired by Jim Weirich's [article](https://archive.li/shxeA) on Dependency Injection
+- [Canister](https://github.com/mlibrary/canister) - a simple service-locator inspired by Jim Weirich's [article](https://archive.li/shxeA) on Dependency Injection
 - [DiFtw](https://github.com/jhollinger/ruby-diftw) - the original inspiration for this module: a similar API with a focus on testing/mocking
 
 ## Articles
