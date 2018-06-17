@@ -24,14 +24,21 @@ module MethodInspector
   end
 end
 
+# a helper method which creates and returns a new Wireless instance used by most tests
+def test_wireless(default_visibility = nil)
+  args = Array(default_visibility)
+
+  Wireless.new(*args) do
+    on(:foo) { :Foo }
+    once(:bar) { :Bar }
+    on(:baz) { :Baz }
+    once(:quux) { :Quux }
+  end
+end
+
 describe 'mixin' do
   it 'imports getters with the default visibility (private)' do
-    wl = Wireless.new do
-      on(:foo) { :Foo }
-      once(:bar) { :Bar }
-      on(:baz) { :Baz }
-      once(:quux) { :Quux }
-    end
+    wl = test_wireless
 
     klass = Class.new do
       include wl.mixin %i[foo bar baz quux]
@@ -46,12 +53,7 @@ describe 'mixin' do
   end
 
   it 'allows the default visibility to be set to private' do
-    wl = Wireless.new(:private) do
-      on(:foo) { :Foo }
-      once(:bar) { :Bar }
-      on(:baz) { :Baz }
-      once(:quux) { :Quux }
-    end
+    wl = test_wireless(:private)
 
     klass = Class.new do
       include wl.mixin %i[foo bar baz quux]
@@ -66,12 +68,7 @@ describe 'mixin' do
   end
 
   it 'allows the default visibility to be set to protected' do
-    wl = Wireless.new(:protected) do
-      on(:foo) { :Foo }
-      once(:bar) { :Bar }
-      on(:baz) { :Baz }
-      once(:quux) { :Quux }
-    end
+    wl = test_wireless(:protected)
 
     klass = Class.new do
       include wl.mixin %i[foo bar baz quux]
@@ -86,12 +83,7 @@ describe 'mixin' do
   end
 
   it 'allows the default visibility to be set to public' do
-    wl = Wireless.new(:public) do
-      on(:foo) { :Foo }
-      once(:bar) { :Bar }
-      on(:baz) { :Baz }
-      once(:quux) { :Quux }
-    end
+    wl = test_wireless(:public)
 
     klass = Class.new do
       include wl.mixin %i[foo bar baz quux]
@@ -106,12 +98,7 @@ describe 'mixin' do
   end
 
   it 'allows visibilities to be overridden (no default)' do
-    wl = Wireless.new do
-      on(:foo) { :Foo }
-      once(:bar) { :Bar }
-      on(:baz) { :Baz }
-      once(:quux) { :Quux }
-    end
+    wl = test_wireless
 
     klass = Class.new do
       # note: these tests mix up the wrapped (e.g. [:foo]) and unwrapped
@@ -128,12 +115,7 @@ describe 'mixin' do
   end
 
   it 'allows visibilities to be overridden (default: private)' do
-    wl = Wireless.new(:private) do
-      on(:foo) { :Foo }
-      once(:bar) { :Bar }
-      on(:baz) { :Baz }
-      once(:quux) { :Quux }
-    end
+    wl = test_wireless(:private)
 
     klass = Class.new do
       include wl.mixin private: :foo, protected: %i[bar baz], public: :quux
@@ -148,12 +130,7 @@ describe 'mixin' do
   end
 
   it 'allows visibilities to be overridden (default: protected)' do
-    wl = Wireless.new(:protected) do
-      on(:foo) { :Foo }
-      once(:bar) { :Bar }
-      on(:baz) { :Baz }
-      once(:quux) { :Quux }
-    end
+    wl = test_wireless(:protected)
 
     klass = Class.new do
       include wl.mixin private: [:foo], protected: %i[bar baz], public: :quux
@@ -168,12 +145,7 @@ describe 'mixin' do
   end
 
   it 'allows visibilities to be overridden (default: public)' do
-    wl = Wireless.new(:public) do
-      on(:foo) { :Foo }
-      once(:bar) { :Bar }
-      on(:baz) { :Baz }
-      once(:quux) { :Quux }
-    end
+    wl = test_wireless(:public)
 
     klass = Class.new do
       include wl.mixin private: :foo, protected: %i[bar baz], public: [:quux]
@@ -188,12 +160,7 @@ describe 'mixin' do
   end
 
   it 'allows imports to be renamed (separate aliases)' do
-    wl = Wireless.new(:public) do
-      on(:foo) { :Foo }
-      once(:bar) { :Bar }
-      on(:baz) { :Baz }
-      once(:quux) { :Quux }
-    end
+    wl = test_wireless
 
     klass = Class.new do
       include wl.mixin({
@@ -219,12 +186,7 @@ describe 'mixin' do
   end
 
   it 'allows imports to be renamed (merged aliases)' do
-    wl = Wireless.new(:public) do
-      on(:foo) { :Foo }
-      once(:bar) { :Bar }
-      on(:baz) { :Baz }
-      once(:quux) { :Quux }
-    end
+    wl = test_wireless
 
     klass = Class.new do
       include wl.mixin({
