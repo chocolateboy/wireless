@@ -131,7 +131,7 @@ allow prerequisites to be acquired on-demand, without micromanaging their constr
 
 # VERSION
 
-0.0.1
+0.0.2
 
 # SEE ALSO
 
