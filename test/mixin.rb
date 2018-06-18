@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'wireless'
 require_relative 'test_helper'
 
 class Method
