@@ -8,6 +8,33 @@ require 'wireless'
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 module Minitest
+  class Spec
+    module DSL
+      # change the nested `describe` separator (defined in minitest/spec.rb).
+      # e.g. for:
+      #
+      #   describe 'foo the bar' do
+      #     describe 'baz the quux' do
+      #       # ...
+      #     end
+      #   end
+      #
+      # before:
+      #
+      #     foo the bar::baz the quux
+      #
+      # after:
+      #
+      #     foo the bar » baz the quux
+
+      alias old_create create
+
+      def create(name, desc)
+        old_create(name.gsub('::', ' » '), desc)
+      end
+    end
+  end
+
   module Assertions
     # executes the supplied block and verifies that it raises a Wireless::KeyError
     # and optionally matches its receiver and key members.
