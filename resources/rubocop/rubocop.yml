@@ -1,9 +1,3 @@
 # project-specific customizations and overrides
 
 inherit_from: default.yml
-
-Style/BracesAroundHashParameters:
-    Enabled: False
-
-Style/HashSyntax:
-    Enabled: false
