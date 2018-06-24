@@ -2,15 +2,11 @@
 
 require_relative 'test_helper'
 
-module MiniTest
-  module Assertions
-    def assert_raises_cycle_error(pattern, &block)
-      err = assert_raises(Wireless::CycleError, &block)
-      assert { err.is_a?(Wireless::Error) }
-      assert { err.is_a?(StandardError) }
-      assert { err.message =~ pattern }
-    end
-  end
+def assert_raises_cycle_error(pattern, &block)
+  err = assert_raises(Wireless::CycleError, &block)
+  assert { err.is_a?(Wireless::Error) }
+  assert { err.is_a?(StandardError) }
+  assert { err.message =~ pattern }
 end
 
 describe 'cycles' do
