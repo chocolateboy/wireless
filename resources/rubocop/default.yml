@@ -13,7 +13,7 @@ Layout/EndAlignment:
   EnforcedStyleAlignWith: variable
 
 Layout/IndentHash:
-    EnforcedStyle: consistent
+  EnforcedStyle: consistent
 
 Lint/NestedMethodDefinition:
   Enabled: false
@@ -34,9 +34,12 @@ Style/AsciiComments:
   Enabled: false
 
 Style/BracesAroundHashParameters:
-    Enabled: False
+  Enabled: false
 
 Style/CommentAnnotation:
+  Enabled: false
+
+Style/ConditionalAssignment:
   Enabled: false
 
 # Configuration parameters: EnforcedStyle, SupportedStyles.
@@ -45,7 +48,10 @@ Style/FormatString:
   Enabled: false
 
 Style/HashSyntax:
-    Enabled: false
+  EnforcedStyle: ruby19
+  PreferHashRocketsForNonAlnumEndingSymbols: false
+  Exclude:
+    - '**/Rakefile'
 
 Style/IfUnlessModifier:
   Enabled: false
@@ -60,6 +66,9 @@ Style/NestedTernaryOperator:
   Enabled: false
 
 Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Style/TernaryParentheses:
   Enabled: false
 
 Style/TrailingCommaInArrayLiteral:
@@ -93,6 +102,9 @@ Metrics/MethodLength:
   Enabled: false
 
 Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/ParameterLists:
   Enabled: false
 
 Metrics/PerceivedComplexity:
