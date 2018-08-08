@@ -127,7 +127,7 @@ Examples include:
 Rather than wiring these dependencies together manually, service locators allow them to be
 registered and retrieved in a declarative way. This is similar to the difference between
 imperative build tools like Ant or Gulp, and declarative build tools like Make or Rake, which
-allow prerequisites to be acquired without micromanaging their construction or connections.
+allow prerequisites to be acquired without micromanaging their construction and coordination.
 
 # VERSION
 
