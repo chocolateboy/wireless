@@ -139,6 +139,7 @@ allow prerequisites to be acquired without micromanaging their construction and 
 
 - [Canister](https://github.com/mlibrary/canister) - a simple service-locator inspired by Jim Weirich's [article](https://archive.li/shxeA) on Dependency Injection
 - [DiFtw](https://github.com/jhollinger/ruby-diftw) - the original inspiration for this module: a similar API with a focus on testing/mocking
+- [dry-container](https://github.com/dry-rb/dry-container) - a standalone service-locator which can also be paired with a [dependency injector](https://github.com/dry-rb/dry-auto_inject)
 
 ## Articles
 
