@@ -39,8 +39,8 @@ module Wireless
       @registry[name.to_sym] = Resolver::Factory.new(block || klass)
     end
 
-    # Returns true if a service with the specified name has been registered, false
-    # otherwise
+    # Returns true if a dependency with the specified name has been registered,
+    # false otherwise
     def include?(key)
       @registry.include?(key)
     end
@@ -52,7 +52,7 @@ module Wireless
     end
 
     # Takes an array or hash specifying the dependencies to export, and returns
-    # a module which exposes those dependencies as getters.
+    # a module which defines getters for those dependencies.
     #
     #   class Test
     #     # hash (specify visibilities)
