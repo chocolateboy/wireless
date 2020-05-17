@@ -4,7 +4,7 @@ module Wireless
   # The registry is a key/value store (Hash) whose keys are symbols and whose values
   # are instances of this class. Resolvers are responsible for returning their
   # dependencies, which they do by calling their corresponding blocks. They can wrap
-  # additional behaviors around this call e.g. singletons (Wireless::Resolver::Singleton)
+  # additional behaviors around this call, e.g. singletons (Wireless::Resolver::Singleton)
   # cache the result so that the block is only called once.
   class Resolver
     def initialize(block = nil)

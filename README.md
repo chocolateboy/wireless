@@ -3,8 +3,7 @@
 [![Build Status](https://travis-ci.org/chocolateboy/wireless.svg)](https://travis-ci.org/chocolateboy/wireless)
 [![Gem Version](https://img.shields.io/gem/v/wireless.svg)](https://rubygems.org/gems/wireless)
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<!-- toc -->
 
 - [NAME](#name)
 - [INSTALLATION](#installation)
@@ -13,6 +12,7 @@
 - [WHY?](#why)
   - [Why Wireless?](#why-wireless)
   - [Why Service Locators?](#why-service-locators)
+- [COMPATIBILITY](#compatibility)
 - [VERSION](#version)
 - [SEE ALSO](#see-also)
   - [Gems](#gems)
@@ -20,7 +20,7 @@
 - [AUTHOR](#author)
 - [COPYRIGHT AND LICENSE](#copyright-and-license)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<!-- tocstop -->
 
 # NAME
 
@@ -87,47 +87,55 @@ which has the following features:
 
 * Simplicity
 
-    It's just an object which dependencies can be added to and retrieved from. It can
-    be passed around and stored like any other object. No "injection", no containers,
-    no framework, no dependencies.
+    It's just an object which dependencies can be added to and retrieved from.
+    It can be passed around and stored like any other object. No "injection",
+    containers, framework, or dependencies.
 
-* Inclusion
+* Convenience
 
-    Inclusion of dependency getters into a class or module with control over their visibility.
+    Include dependency getters into a class or module with control over their
+    visibility.
 
 * Laziness
 
-    As well as dependencies being resolved lazily, they can also be *registered* lazily i.e.
-    at the point of creation, rather than forcing everything to be declared up-front.
+    As well as being resolved lazily, dependencies can also be *registered*
+    lazily, i.e. at the point of creation. There's no need to declare
+    everything up front.
 
 * Safety
 
-    Dependency resolution is thread-safe. Dependency cycles are checked and raise a fatal
-    error as soon as they are detected.
+    Dependency resolution is thread-safe. Dependency cycles are checked and
+    raise a fatal error as soon as they are detected.
 
 # WHY?
 
 ## Why Wireless?
 
-I wanted a simple service locator like [DiFtw](https://github.com/jhollinger/ruby-diftw),
-with cycle detection and control over the [visibility of getters](https://github.com/jhollinger/ruby-diftw/issues/1).
+I wanted a simple service locator like
+[DiFtw](https://github.com/jhollinger/ruby-diftw), with cycle detection and
+control over the [visibility of getters](https://github.com/jhollinger/ruby-diftw/issues/1).
 
 ## Why Service Locators?
 
 Service locators make it easy to handle shared (AKA
-[cross-cutting](https://en.wikipedia.org/wiki/Cross-cutting_concern)) dependencies i.e.
-values and services that are required by multiple otherwise-unrelated parts of a system.
-Examples include:
+[cross-cutting](https://en.wikipedia.org/wiki/Cross-cutting_concern))
+dependencies i.e. values and services that are required by multiple
+otherwise-unrelated parts of a system. Examples include:
 
 * logging
 * configuration data
 * storage backends
 * authorisation
 
-Rather than wiring these dependencies together manually, service locators allow them to be
-registered and retrieved in a declarative way. This is similar to the difference between
-imperative build tools like Ant or Gulp, and declarative build tools like Make or Rake, which
-allow prerequisites to be acquired without micromanaging their construction and coordination.
+Rather than wiring these dependencies together manually, service locators allow
+them to be registered and retrieved in a declarative way. This is similar to
+the difference between imperative build tools like Ant or Gulp, and declarative
+build tools like Make or Rake, which allow prerequisites to be acquired without
+coordinating their construction.
+
+# COMPATIBILITY
+
+- [Maintained ruby versions](https://www.ruby-lang.org/en/downloads/branches/)
 
 # VERSION
 
@@ -152,7 +160,7 @@ allow prerequisites to be acquired without micromanaging their construction and 
 
 # COPYRIGHT AND LICENSE
 
-Copyright © 2018 by chocolateboy.
+Copyright © 2018-2020 by chocolateboy.
 
 This is free software; you can redistribute it and/or modify it under the
-terms of the [Artistic License 2.0](http://www.opensource.org/licenses/artistic-license-2.0.php).
+terms of the [Artistic License 2.0](https://www.opensource.org/licenses/artistic-license-2.0.php).

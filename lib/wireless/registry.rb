@@ -9,7 +9,7 @@ module Wireless
   # which either resolve the dependency every time (factory) or once (singleton).
   #
   # A class can be supplied instead of the block, in which case it is equivalent to
-  # a block which calls +new+ on the class e.g.:
+  # a block which calls +new+ on the class, e.g.:
   #
   #   WL = Wireless.new do
   #     on(:foo, Foo)
@@ -70,7 +70,7 @@ module Wireless
     # with { visibility => imports } pairs, where imports is an array of import
     # specifiers. An import specifier is a symbol (method name == dependency name)
     # or a hash with { dependency_name => method_name } pairs (aliases). If
-    # there's only one import specifier, its enclosing array can be omitted e.g.:
+    # there's only one import specifier, its enclosing array can be omitted, e.g.:
     #
     #   include Services.mixin(private: :foo, protected: { :baz => :quux })
     #
@@ -88,8 +88,9 @@ module Wireless
         raise ArgumentError, "invalid mixin argument: expected array or hash, got: #{args.class}"
       end
 
-      # slurp each array of name (symbol) or name => alias (hash) imports into
-      # a normalized hash of { dependency_name => method_name } pairs e.g.:
+      # slurp each array of name (symbol) or name => alias (hash) import
+      # specifiers into a normalized hash of { dependency_name => method_name }
+      # pairs, e.g.:
       #
       # before:
       #
@@ -99,19 +100,10 @@ module Wireless
       #
       #   { :foo => :foo, :bar => :baz, :quux => :quux }
 
-      # XXX transform_values isn't available in ruby 2.3 and we don't want to
-      # pull in ActiveSupport just for one method (on this occasion)
-      #
-      # args = DEFAULT_EXPORTS.merge(args).transform_values do |exports|
-      #     exports = [exports] unless exports.is_a?(Array)
-      #     exports.reduce({}) do |a, b|
-      #         a.merge(b.is_a?(Hash) ? b : { b => b })
-      #     end
-      # end
-
-      args = DEFAULT_EXPORTS.merge(args).each_with_object({}) do |(key, exports), merged|
+      # XXX transform_values requires ruby >= 2.5
+      args = DEFAULT_EXPORTS.merge(args).transform_values do |exports|
         exports = [exports] unless exports.is_a?(Array)
-        merged[key] = exports.reduce({}) do |a, b|
+        exports.reduce({}) do |a, b|
           a.merge(b.is_a?(Hash) ? b : { b => b })
         end
       end

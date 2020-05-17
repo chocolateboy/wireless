@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.5
   DisplayCopNames: true
   Exclude:
     - 'dev/**/*'
@@ -8,32 +8,45 @@ AllCops:
     - '.bundle/**/*'
     - '.git/**/*'
     - '.rubocop/**/*'
+    - '*.rb'
+
+Layout/CaseIndentation:
+  EnforcedStyle: end
+
+Layout/EmptyLineAfterGuardClause:
+    Enabled: false
 
 Layout/EndAlignment:
   EnforcedStyleAlignWith: variable
 
-Layout/IndentHash:
+Layout/FirstHashElementIndentation:
   EnforcedStyle: consistent
 
-Lint/NestedMethodDefinition:
+Layout/HashAlignment:
+  # EnforcedHashRocketStyle: table
+  # EnforcedColonStyle: table
   Enabled: false
 
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes.
 # URISchemes: http, https
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
+
+Lint/NestedMethodDefinition:
+  Enabled: false
 
 Naming/FileName:
   Exclude:
     - '**/Rakefile'
 
+Naming/HeredocDelimiterNaming:
+  ForbiddenDelimiters:
+    - '(?:END|EOF)'
+
 Security/Eval:
   Enabled: false
 
 Style/AsciiComments:
-  Enabled: false
-
-Style/BracesAroundHashParameters:
   Enabled: false
 
 Style/CommentAnnotation:
@@ -47,13 +60,18 @@ Style/ConditionalAssignment:
 Style/FormatString:
   Enabled: false
 
+Style/FormatStringToken:
+  Enabled: false
+
 Style/HashSyntax:
   EnforcedStyle: ruby19
-  PreferHashRocketsForNonAlnumEndingSymbols: false
   Exclude:
     - '**/Rakefile'
 
 Style/IfUnlessModifier:
+  Enabled: false
+
+Style/MultilineBlockChain:
   Enabled: false
 
 Style/MutableConstant:
@@ -66,6 +84,12 @@ Style/NestedTernaryOperator:
   Enabled: false
 
 Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Style/SpecialGlobalVars:
+  Enabled: false
+
+Style/StderrPuts:
   Enabled: false
 
 Style/TernaryParentheses:
