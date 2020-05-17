@@ -139,7 +139,7 @@ coordinating their construction.
 
 # VERSION
 
-0.0.2
+0.1.0
 
 # SEE ALSO
 

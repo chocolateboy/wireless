@@ -12,7 +12,7 @@ module Wireless
   #   - retrieve a value from a key-indexed store when the key doesn't exist
   #   - write a value when the key exists and the store doesn't allow replacements
   #
-  # Can be passed a message, the receiver the lookup failed on and the key. All
+  # Can be passed a message, the receiver the lookup failed on, and the key. All
   # are optional and default to nil.
   #
   # XXX eventually (i.e. in ruby 2.6), this can be a subclass of (or replaced by)
