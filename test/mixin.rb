@@ -96,12 +96,13 @@ describe 'mixin' do
     assert { test.get(:quux) == %i[Quux public] }
   end
 
+  # note: the following tests mix up the wrapped (e.g. [:foo]) and unwrapped (e.g.
+  # :quux) import specifications to ensure they're all covered
+
   it 'allows visibilities to be overridden (no default)' do
     wl = test_wireless
 
     klass = Class.new do
-      # note: these tests mix up the wrapped (e.g. [:foo]) and unwrapped
-      # (e.g. :quux) import specifications to ensure they're all covered
       include wl.mixin private: [:foo], protected: %i[bar baz], public: [:quux]
       include MethodInspector
     end
