@@ -1,3 +1,7 @@
+## 0.1.1 - TBD
+
+- documentation tweaks
+
 ## 0.1.0 - 2020-05-18
 
 - **breaking change**: bump minimum ruby version from 2.3 -> 2.5

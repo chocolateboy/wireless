@@ -15,7 +15,7 @@ describe 'core' do
 
       # singleton: return the cached value
       once(:bar) do
-        [:bar, 42]
+        [:bar, count += 1]
       end
 
       # depend on other dependencies
@@ -29,12 +29,12 @@ describe 'core' do
     assert { wl[:foo] == [:foo, 2] }
 
     # singleton
-    assert { wl[:bar] == [:bar, 42] }
-    assert { wl[:bar] == [:bar, 42] }
+    assert { wl[:bar] == [:bar, 3] }
+    assert { wl[:bar] == [:bar, 3] }
 
     # dependencies
-    assert { wl[:baz] == [:baz, [:foo, 3], [:bar, 42]] }
-    assert { wl[:baz] == [:baz, [:foo, 4], [:bar, 42]] }
+    assert { wl[:baz] == [:baz, [:foo, 4], [:bar, 3]] }
+    assert { wl[:baz] == [:baz, [:foo, 5], [:bar, 3]] }
   end
 
   # same again with `factory` instead of `on` and `singleton` instead of `once`
@@ -49,7 +49,7 @@ describe 'core' do
 
       # singleton: return the cached value
       singleton(:bar) do
-        [:bar, 42]
+        [:bar, count += 1]
       end
 
       # depend on other dependencies
@@ -63,12 +63,12 @@ describe 'core' do
     assert { wl[:foo] == [:foo, 2] }
 
     # singleton
-    assert { wl[:bar] == [:bar, 42] }
-    assert { wl[:bar] == [:bar, 42] }
+    assert { wl[:bar] == [:bar, 3] }
+    assert { wl[:bar] == [:bar, 3] }
 
     # dependencies
-    assert { wl[:baz] == [:baz, [:foo, 3], [:bar, 42]] }
-    assert { wl[:baz] == [:baz, [:foo, 4], [:bar, 42]] }
+    assert { wl[:baz] == [:baz, [:foo, 4], [:bar, 3]] }
+    assert { wl[:baz] == [:baz, [:foo, 5], [:bar, 3]] }
   end
 
   it 'allows an indirectly-accessed dependency to be defined lazily' do

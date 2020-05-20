@@ -47,7 +47,7 @@ WL = Wireless.new do
 
   # singleton: return the cached value
   once(:bar) do
-    [:bar, 42]
+    [:bar, count += 1]
   end
 
   # depend on other dependencies
@@ -61,21 +61,21 @@ WL[:foo] # [:foo, 1]
 WL[:foo] # [:foo, 2]
 
 # singleton
-WL[:bar] # [:bar, 42]
-WL[:bar] # [:bar, 42]
+WL[:bar] # [:bar, 3]
+WL[:bar] # [:bar, 3]
 
 # dependencies
-WL[:baz] # [:baz, [:foo, 3], [:bar, 42]]
-WL[:baz] # [:baz, [:foo, 4], [:bar, 42]]
+WL[:baz] # [:baz, [:foo, 4], [:bar, 3]]
+WL[:baz] # [:baz, [:foo, 5], [:bar, 3]]
 
 # mixin
 class Example
   include WL.mixin %i[foo bar baz]
 
   def test
-    foo # [:foo, 5]
-    bar # [:bar, 42]
-    baz # [:baz, [:foo, 6], [:bar, 42]]
+    foo # [:foo, 6]
+    bar # [:bar, 3]
+    baz # [:baz, [:foo, 7], [:bar, 3]]
   end
 end
 ```
@@ -119,7 +119,7 @@ control over the [visibility of getters](https://github.com/jhollinger/ruby-dift
 
 Service locators make it easy to handle shared (AKA
 [cross-cutting](https://en.wikipedia.org/wiki/Cross-cutting_concern))
-dependencies i.e. values and services that are required by multiple
+dependencies, i.e. values and services that are required by multiple
 otherwise-unrelated parts of a system. Examples include:
 
 * logging
