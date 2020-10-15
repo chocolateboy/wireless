@@ -2,8 +2,5 @@
 
 source 'https://rubygems.org'
 
-# force HTTPS: https://bundler.io/v1.14/git.html#security
-git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
-
-# pull in dependencies from wireless.gemspec
-gemspec
+# pull in runtime and test dependencies from wireless.gemspec
+gemspec development_group: :test

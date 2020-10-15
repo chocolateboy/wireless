@@ -39,11 +39,11 @@ module Minitest
   end
 
   module Assertions
-    # executes the supplied block and verifies that it raises a Wireless::KeyError
-    # and optionally matches its receiver and key members.
+    # executes the supplied block and verifies that it raises a
+    # Wireless::KeyError and optionally matches its receiver and key members.
     #
-    # if both the receiver and the key are supplied and the block is omitted,
-    # it defaults to:
+    # if both the receiver and the key are supplied and the block is omitted, it
+    # defaults to:
     #
     #   -> { receiver[key] }
 
@@ -54,10 +54,8 @@ module Minitest
       assert { err.is_a?(Wireless::Error) }
       assert { err.is_a?(StandardError) }
 
-      # rubocop:disable Style/CaseEquality
       assert { key === err.key } if key
       assert { receiver === err.receiver } if receiver
-      # rubocop:enable Style/CaseEquality
     end
   end
 
