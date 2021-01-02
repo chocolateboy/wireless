@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
     'source_code_uri'   => 'https://github.com/chocolateboy/wireless',
   }
 
-  spec.add_development_dependency 'bundler', '~> 2.1'
+  spec.add_development_dependency 'bundler', '~> 2.2'
   spec.add_development_dependency 'minitest', '~> 5.14'
   spec.add_development_dependency 'minitest-power_assert', '~> 0.3'
   spec.add_development_dependency 'minitest-reporters', '~> 1.4'

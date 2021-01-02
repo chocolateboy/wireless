@@ -1,6 +1,6 @@
 # Wireless
 
-[![Build Status](https://travis-ci.org/chocolateboy/wireless.svg)](https://travis-ci.org/chocolateboy/wireless)
+[![Build Status](https://github.com/chocolateboy/wireless/workflows/test/badge.svg)](https://github.com/chocolateboy/wireless/actions?query=workflow%3Atest)
 [![Gem Version](https://img.shields.io/gem/v/wireless.svg)](https://rubygems.org/gems/wireless)
 
 <!-- toc -->

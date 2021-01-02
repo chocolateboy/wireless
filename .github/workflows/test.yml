@@ -1,0 +1,36 @@
+name: test
+
+on:
+  pull_request:
+  push:
+    paths-ignore:
+      - '**.md'
+
+env:
+  CI: true
+
+jobs:
+  test:
+    name: "ruby v${{ matrix.ruby-version }} on ${{ matrix.os }}"
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
+        ruby-version: ['2.5', '2.6', '2.7']
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: set up ruby v${{ matrix.ruby-version }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: false
+
+      - name: install
+        run: bundle install
+
+      - name: test
+        run: bundle exec rake test
