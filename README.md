@@ -160,7 +160,7 @@ coordinating their construction.
 
 # COPYRIGHT AND LICENSE
 
-Copyright © 2018-2020 by chocolateboy.
+Copyright © 2018-2021 by chocolateboy.
 
-This is free software; you can redistribute it and/or modify it under the
-terms of the [Artistic License 2.0](https://www.opensource.org/licenses/artistic-license-2.0.php).
+This is free software; you can redistribute it and/or modify it under the terms
+of the [MIT license](https://opensource.org/licenses/MIT).
