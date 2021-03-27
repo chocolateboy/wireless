@@ -1,6 +1,6 @@
-## 0.1.1 - TBD
+## 1.0.0 - TBD
 
-- documentation tweaks
+- relicense: Artistic 2.0 -> MIT
 
 ## 0.1.0 - 2020-05-18
 
